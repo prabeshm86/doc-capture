@@ -1,0 +1,5 @@
+{
+  "productName": "Acme Reports",
+  "intro": "Step-by-step guides for building, finding and sharing reports in Acme Reports. Each guide has a short walkthrough video and annotated screenshots.",
+  "blurSelectors": [".user-email"]
+}

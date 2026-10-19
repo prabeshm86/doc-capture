@@ -1,0 +1,27 @@
+{
+  "name": "doc-capture",
+  "version": "1.0.0",
+  "description": "Generate user documentation with screenshots and walkthrough videos from Playwright flows",
+  "scripts": {
+    "login": "node scripts/login.mjs",
+    "record": "node scripts/record.mjs",
+    "capture": "playwright test",
+    "build": "node scripts/build-docs.mjs",
+    "docs": "node scripts/docs.mjs",
+    "demo": "node scripts/docs.mjs --demo",
+    "open": "node scripts/open.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  },
+  "private": true,
+  "type": "module",
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

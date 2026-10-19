@@ -1,0 +1,14 @@
+{
+  "productName": "My App",
+  "intro": "Step-by-step guides with walkthrough videos and annotated screenshots.",
+  "viewport": { "width": 1280, "height": 800 },
+  "screenshotScale": 2,
+  "browserChannel": "",
+  "pace": 1,
+  "accentColor": "#E5484D",
+  "highlightStyle": "box",
+  "cursor": true,
+  "captions": true,
+  "blurSelectors": [],
+  "gif": { "enabled": true, "width": 960, "fps": 12 }
+}

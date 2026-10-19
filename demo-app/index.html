@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acme Reports</title>
+<style>
+  :root { --bg:#f6f7f9; --panel:#fff; --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --brand:#2563eb; --brand-ink:#fff; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg); }
+  .app { display:grid; grid-template-columns:232px 1fr; min-height:100vh; }
+  aside { background:#0f172a; color:#cbd5e1; padding:20px 14px; }
+  .logo { display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px; padding:0 8px 22px; }
+  .logo b { display:grid; place-items:center; width:30px; height:30px; border-radius:8px; background:var(--brand); }
+  aside a { display:flex; align-items:center; gap:10px; padding:9px 10px; margin:2px 0; border-radius:8px; color:inherit; text-decoration:none; }
+  aside a:hover { background:#1e293b; }
+  aside a.active { background:#1e293b; color:#fff; }
+  aside svg { width:18px; height:18px; opacity:.85; }
+  header { display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--line); }
+  header input { width:320px; padding:8px 12px; border:1px solid var(--line); border-radius:8px; font:inherit; background:var(--bg); }
+  .user { display:flex; align-items:center; gap:10px; }
+  .avatar { width:32px; height:32px; border-radius:50%; background:#c7d2fe; color:#3730a3; display:grid; place-items:center; font-weight:700; }
+  .user small { display:block; color:var(--muted); }
+  main { padding:28px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:var(--muted); margin:0 0 22px; }
+  .row { display:flex; align-items:center; justify-content:space-between; }
+  .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:22px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px; }
+  .card .k { color:var(--muted); font-size:13px; } .card .v { font-size:26px; font-weight:700; margin-top:4px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:9px 14px; border-radius:8px; border:1px solid var(--line); background:var(--panel); font:600 14px/1 inherit; cursor:pointer; color:var(--ink); }
+  .btn.primary { background:var(--brand); border-color:var(--brand); color:var(--brand-ink); }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th, td { text-align:left; padding:12px 16px; border-bottom:1px solid var(--line); }
+  th { font-size:12px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); background:#fafafa; }
+  tr:last-child td { border-bottom:0; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:999px; background:#eef2ff; color:#3730a3; font-size:12px; font-weight:600; }
+  .pill.new { background:#dcfce7; color:#166534; }
+  form.panel { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:24px; max-width:640px; }
+  .field { margin-bottom:18px; }
+  .field label, .field legend { display:block; font-weight:600; margin-bottom:6px; }
+  .field input[type=text], .field select { width:100%; padding:9px 12px; border:1px solid #d1d5db; border-radius:8px; font:inherit; background:#fff; }
+  fieldset { border:0; padding:0; margin:0; }
+  .choices { display:flex; gap:10px; }
+  .choices label { display:flex; align-items:center; gap:8px; padding:9px 14px; border:1px solid #d1d5db; border-radius:8px; font-weight:500; }
+  .check { display:flex; align-items:center; gap:8px; font-weight:500; }
+  .actions { display:flex; gap:10px; margin-top:24px; }
+  .toggle { display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid var(--line); }
+  .toggle:last-of-type { border-bottom:0; }
+  .toggle small { display:block; color:var(--muted); }
+  .toast { position:fixed; right:24px; top:72px; background:#111827; color:#fff; padding:12px 16px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.2); font-weight:600; }
+  .hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="logo"><b>A</b> Acme Reports</div>
+    <a href="#/dashboard" data-nav="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</a>
+    <a href="#/reports" data-nav="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reports</a>
+    <a href="#/settings" data-nav="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</a>
+  </aside>
+  <div>
+    <header>
+      <input type="search" id="search" placeholder="Search reports" aria-label="Search reports">
+      <div class="user"><div class="avatar">JL</div><div><strong>Jordan Lee</strong><small class="user-email">jordan.lee@example.com</small></div></div>
+    </header>
+    <main id="view"></main>
+  </div>
+</div>
+<div class="toast hidden" role="status" id="toast"></div>
+
+<script>
+  const reports = [
+    { name: 'Weekly revenue', source: 'Sales', range: 'Last 7 days', owner: 'Jordan Lee', updated: 'Today' },
+    { name: 'Stock levels by warehouse', source: 'Inventory', range: 'Last 30 days', owner: 'Sam Patel', updated: 'Yesterday' },
+    { name: 'Campaign performance', source: 'Marketing', range: 'This quarter', owner: 'Ana Ruiz', updated: 'Oct 12' },
+    { name: 'Regional sales', source: 'Sales', range: 'This quarter', owner: 'Jordan Lee', updated: 'Oct 9' },
+  ];
+  let filter = '';
+  const view = document.getElementById('view');
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.remove('hidden');
+    clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.add('hidden'), 4000);
+  }
+
+  const pages = {
+    dashboard: () => `
+      <h1>Good morning, Jordan</h1><p class="sub">Here's what's happening across your reports.</p>
+      <div class="cards">
+        <div class="card"><div class="k">Reports</div><div class="v">${reports.length}</div></div>
+        <div class="card"><div class="k">Scheduled this week</div><div class="v">7</div></div>
+        <div class="card"><div class="k">Shared with you</div><div class="v">3</div></div>
+      </div>
+      <h2 style="font-size:16px">Recently updated</h2>${table(reports.slice(0, 3))}`,
+    reports: () => {
+      const rows = reports.filter((r) => r.name.toLowerCase().includes(filter.toLowerCase()));
+      return `<div class="row"><div><h1>Reports</h1><p class="sub">All reports you own or that are shared with you.</p></div>
+        <a class="btn primary" href="#/reports/new">+ New report</a></div>${rows.length ? table(rows) : '<p class="sub">No reports match your search.</p>'}`;
+    },
+    'reports/new': () => `
+      <h1>New report</h1><p class="sub">Choose where the data comes from and how it's shown.</p>
+      <form class="panel" id="new-report">
+        <div class="field"><label for="name">Report name</label><input type="text" id="name" placeholder="e.g. Q4 pipeline" required></div>
+        <div class="field"><label for="source">Data source</label>
+          <select id="source"><option value="">Select a source…</option><option>Sales</option><option>Inventory</option><option>Marketing</option></select></div>
+        <div class="field"><label for="range">Date range</label>
+          <select id="range"><option>Last 7 days</option><option>Last 30 days</option><option>This quarter</option></select></div>
+        <fieldset class="field"><legend>Chart type</legend><div class="choices">
+          <label><input type="radio" name="chart" value="bar" checked> Bar</label>
+          <label><input type="radio" name="chart" value="line"> Line</label>
+          <label><input type="radio" name="chart" value="table"> Table</label></div></fieldset>
+        <label class="check"><input type="checkbox" id="notify"> Email me when the report is ready</label>
+        <div class="actions"><button class="btn primary" type="submit">Save report</button><a class="btn" href="#/reports">Cancel</a></div>
+      </form>`,
+    settings: () => `
+      <h1>Settings</h1><p class="sub">Control how and when Acme Reports contacts you.</p>
+      <form class="panel" id="settings">
+        <h2 style="font-size:16px;margin-top:0">Notifications</h2>
+        <label class="toggle"><span>Daily digest<small>A summary of changed reports every morning.</small></span><input type="checkbox" id="digest" checked></label>
+        <label class="toggle"><span>Weekly summary<small>Top insights from your reports every Monday.</small></span><input type="checkbox" id="weekly"></label>
+        <div class="field" style="margin-top:18px"><label for="tz">Time zone</label>
+          <select id="tz"><option>Pacific Time (US)</option><option>Eastern Time (US)</option><option>London</option><option>Kathmandu</option></select></div>
+        <div class="actions"><button class="btn primary" type="submit">Save changes</button></div>
+      </form>`,
+  };
+
+  function table(rows) {
+    return `<table><thead><tr><th>Name</th><th>Source</th><th>Date range</th><th>Owner</th><th>Updated</th></tr></thead><tbody>
+      ${rows.map((r) => `<tr><td><strong>${esc(r.name)}</strong> ${r.isNew ? '<span class="pill new">New</span>' : ''}</td>
+      <td><span class="pill">${esc(r.source)}</span></td><td>${esc(r.range)}</td><td>${esc(r.owner)}</td><td>${esc(r.updated)}</td></tr>`).join('')}
+      </tbody></table>`;
+  }
+
+  function render() {
+    const route = location.hash.replace(/^#\//, '') || 'dashboard';
+    view.innerHTML = (pages[route] || pages.dashboard)();
+    document.querySelectorAll('[data-nav]').forEach((a) => a.classList.toggle('active', route.startsWith(a.dataset.nav)));
+    const form = document.getElementById('new-report');
+    if (form) form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const val = (id) => form.querySelector('#' + id).value;
+      reports.unshift({ name: val('name'), source: val('source') || 'Sales', range: val('range'), owner: 'Jordan Lee', updated: 'Just now', isNew: true });
+      location.hash = '#/reports'; toast('Report created');
+    });
+    const settings = document.getElementById('settings');
+    if (settings) settings.addEventListener('submit', (e) => { e.preventDefault(); toast('Settings saved'); });
+  }
+
+  document.getElementById('search').addEventListener('input', (e) => {
+    filter = e.target.value;
+    if (!location.hash.startsWith('#/reports') || location.hash === '#/reports/new') location.hash = '#/reports';
+    else render();
+  });
+  addEventListener('hashchange', render);
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+node_modules/
+.env
+.auth/
+output/
+output-demo/
+recordings/
+test-results/
+playwright-report/
